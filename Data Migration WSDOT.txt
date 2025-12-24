@@ -1,0 +1,470 @@
+
+--truncate table  [Masters].[tblVesselMaster]
+
+USE [WSDOT_DB_DEV_NEW];
+GO
+
+INSERT INTO [Masters].[tblVesselMaster] (
+    [id],
+    [vessel_class_id],
+    [vessel_name],
+    [vessel_name_desc],
+    [vessel_status],
+    [vessel_city_built],
+    [vessel_year_built_rebuilt],
+    [vessel_length],
+    [vessel_beam],
+    [vessel_draft],
+    [vessel_auto_deck_clearance],
+    [vessel_speed_in_knots],
+    [vessel_horsepower],
+    [vessel_engines],
+    [vessel_propulsion_system],
+    [vessel_gross_net_tonnage],
+    [vessel_max_passenger_count],
+    [vessel_max_auto_deck_space],
+    [vessel_max_tall_deck_space],
+    [vessel_handicap_accessible_ind],
+    [vessel_elevator_ind],
+    [vessel_cardeck_restroom_ind],
+    [vessel_cardeck_shelter_ind],
+    [vessel_maincabin_restroom_ind],
+    [vessel_maincabin_galley_ind],
+    [vessel_passenger_only_ind],
+    [vessel_fast_ferry_ind],
+    [vessel_history],
+    [vessel_ada_info],
+    [vessel_additional_info],
+    [vessel_public_wifi],
+    [vessel_show_to_public],
+    [created_by],
+    [created_on],
+    [modified_by],
+    [modified_on],
+    [is_active],
+    [is_deleted]
+)
+SELECT
+    [vessel_id],
+    [vesselclass_id],
+    [vessel_name],
+    [vessel_name_desc],
+    CAST([vessel_status] AS INT),
+    [city_built],
+    [year_built_rebuilt],
+    [vessel_length],
+    [vessel_beam],
+    [vessel_draft],
+    TRY_CAST([auto_deck_clearance] AS INT),
+    [speed_in_knots],
+    [horsepower],
+    [engines],
+    [propulsion_system],
+    [gross_net_tonnage],
+    [max_passenger_count],
+    [max_auto_deck_space],
+    [max_tall_deck_space],
+    [handicap_accessible_ind],
+    [elevator_ind],
+    [cardeck_restroom_ind],
+    [cardeck_shelter_ind],
+    [maincabin_restroom_ind],
+    [maincabin_galley_ind],
+    [passenger_only_ind],
+    [fast_ferry_ind],
+    [vessel_history],
+    [ada_info],
+    [additional_info],
+    [public_wifi],
+    [show_to_public],
+    [LAST_UPDATED_BY],
+    [LAST_UPDATED_DATETIME],
+    [LAST_UPDATED_BY],
+    [LAST_UPDATED_DATETIME],
+    1,
+	0
+FROM [WSFFoundation].[Base].[FIN_Vessels];
+-----------------------------------------------------------------------------------------------------------------------------
+
+USE [WSDOT_DB_DEV_NEW];
+GO
+
+INSERT INTO [Masters].[tblVesselClassMaster] (
+    [vessel_class_name],
+    [vessel_class_image_link_silhouette],
+    [vessel_class_image_link_drawing],
+    [vessel_class_image_link_drawing_small],
+    [vessel_class_sort_seq],
+    [created_by],
+    [created_on],
+    [modified_by],
+    [modified_on],
+    [is_active],
+    [vessel_hex_color_code],
+    [vessel_public_class_name],
+    [is_deleted]
+)
+SELECT
+    [class_name],
+    [image_link_silhouette],
+    [image_link_drawing],
+    [image_link_drawing_small],
+    [sort_seq],
+    [LAST_UPDATED_BY],
+    ISNULL([LAST_UPDATED_DATETIME], GETDATE()),
+    [LAST_UPDATED_BY],
+    ISNULL([LAST_UPDATED_DATETIME], GETDATE()),
+    1,     -- is_active
+    NULL,  -- vessel_hex_color_code
+    NULL,  -- vessel_public_class_name
+    0      -- is_deleted
+
+FROM [WSFFoundation].[Base].[FIN_VesselClass];
+
+----------------------------------------------------------------------------------------
+
+
+INSERT INTO [Masters].[tblTerminalMaster] (
+    [pos_terminal_id],
+    [terminal_name],
+    [terminal_latitude],
+    [terminal_longitude],
+    [terminal_address_line_1],
+    [terminal_address_line_2],
+    [terminal_city],
+    [terminal_state],
+    [terminal_zip_code],
+    [terminal_country],
+    [terminal_region_id],
+    [terminal_elevator],
+    [terminal_restroom],
+    [terminal_overhead_passenger_loading],
+    [terminal_food_service],
+    [terminal_waiting_room],
+    [terminal_sort_seq],
+    [terminal_transit_link1],
+    [terminal_transit_link1_text],
+    [terminal_transit_link2],
+    [terminal_transit_link2_text],
+    [terminal_map_link],
+    [terminal_directions],
+    [terminal_ada_info],
+    [terminal_parking_info],
+    [terminal_parking_shuttle_info],
+    [terminal_parking_shuttle_directions],
+    [terminal_airport_shuttle],
+    [terminal_additional_info],
+    [terminal_food_service_text],
+    [terminal_fare_discount],
+    [terminal_chamber_of_commerce_link],
+    [terminal_chamber_of_commerce_link_text],
+    [terminal_hov],
+    [terminal_bike],
+    [terminal_upcoming_event],
+    [terminal_lost_and_found],
+    [terminal_security],
+    [terminal_train],
+    [terminal_taxi],
+    [terminal_airport],
+    [terminal_construction],
+    [terminal_fac],
+    [terminal_truck],
+    [terminal_tally_system],
+    [terminal_motorcycle],
+    [terminal_transit_link3],
+    [terminal_transit_link3_text],
+    [created_by],
+    [created_on],
+    [modified_by],
+    [modified_on],
+    [is_active],
+    [is_deleted]
+)
+SELECT
+    [pos_terminal_id],
+    [terminal_name],
+    0.0,  -- terminal_latitude (no corresponding field in source)
+    0.0,  -- terminal_longitude (no corresponding field in source)
+    [address_line_1],
+    [address_line_2],
+    [city],
+    NULL,  -- terminal_state (needs mapping)
+    [zip_code],
+    NULL,  -- terminal_country (needs mapping)
+    [region_id],
+    [elevator],
+    [restroom],
+    [overhead_passenger_loading],
+    [food_service],
+    [waiting_room],
+    [sort_seq],
+    [transit_link1],
+    [transit_link1_text],
+    [transit_link2],
+    [transit_link2_text],
+    [map_link],
+    [directions],
+    [ada_info],
+    [parking_info],
+    [parking_shuttle_info],
+    [parking_shuttle_directions],
+    [airport_shuttle],
+    [additional_info],
+    [food_service_text],
+    [fare_discount],
+    [chamber_of_commerce_link],
+    [chamber_of_commerce_link_text],
+    [hov],
+    [bike],
+    [upcoming_event],
+    [lost_and_found],
+    [security],
+    [train],
+    [taxi],
+    [airport],
+    [construction],
+    [fac],
+    [truck],
+    [tally_system],
+    [motorcycle],
+    [transit_link3],
+    [transit_link3_text],
+    [LAST_UPDATED_BY],
+    [LAST_UPDATED_DATETIME],
+    [LAST_UPDATED_BY],
+    [LAST_UPDATED_DATETIME],
+    1, -- is_active
+    0  -- is_deleted
+FROM [WSFFoundation].[Base].[FIN_Terminals];
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Optional: Enable IDENTITY_INSERT if [id] is an IDENTITY column
+-- SET IDENTITY_INSERT [Masters].[tblEventMaster] ON;
+
+--truncate table [Masters].[tblEventMaster]
+
+INSERT INTO [Masters].[tblEventMaster] (
+    id,
+    event_name,
+    event_type_id,
+    event_system_id,
+    event_category_id,
+    event_component_id,
+    event_sub_id,
+    event_sub_type_id,
+    event_start_datetime,
+    event_end_datetime,
+    event_status,
+    event_location_id,
+    event_permanent_flag,
+    event_reason_code,
+    event_work_loc_type,
+    event_eoc_flag,
+    event_delay_flag,
+    event_delay_type,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on,
+    is_active,
+    is_deleted
+)
+SELECT
+    Event_Id,
+    Event_Name,
+    Event_Type_Id,
+    Event_System_Id,
+    Event_Category_Id,
+    Event_Component_Id,
+    Event_Sub_Id,
+    Event_Sub_Type_Id,
+    Event_Start_Datetime,
+    Event_End_Datetime,
+    Event_Status,
+    Location_Id,
+    Permanent_Flag,
+    Reason_Code,
+    Work_Loc_Type,
+    Eoc_Flag,
+    Delay_Flag,
+    Delay_Type,
+    Insert_User_Name,
+    Insert_Datetime,
+    Modified_User_Name,
+    Modified_Datetime,
+    1 AS is_active,
+    0 AS is_deleted
+FROM [WSFFoundation].[dbo].[Event_Name];
+
+-- Optional: Disable IDENTITY_INSERT if it was enabled
+-- SET IDENTITY_INSERT [Masters].[tblEventMaster] OFF;
+
+------------------------------------------------------------------------------------------------------------------
+-- If ID is an IDENTITY in tblFerryRegion, remove 'id' from the insert and omit FerryRegionId from the SELECT
+-- Otherwise, use SET IDENTITY_INSERT as shown below if needed.
+
+-- Enable identity insert if 'id' is IDENTITY (remove if not needed)
+-- SET IDENTITY_INSERT [Masters].[tblFerryRegion] ON;
+
+INSERT INTO [WSDOT_DB_DEV_NEW].[Masters].[tblFerryRegion] (
+    id,
+    ferry_region_name,
+    created_by,
+    created_on,
+    modified_by,
+    modified_on,
+    is_active,
+    is_deleted,
+    Abbreviation,
+    is_reservation_required,
+    is_international_route,
+    is_island_only,
+    is_passenger_only 
+	
+)
+SELECT
+    FerryRegionId,
+    Name,
+    NULL AS created_by,
+    NULL AS created_on,
+    ModifiedBy,
+    CAST(ModifiedDate AS datetime),
+    CASE WHEN IsDeletedFlag = 0 THEN 1 ELSE 0 END AS is_active,
+    IsDeletedFlag,
+    RegionShortName,
+    NULL AS is_reservation_required,
+    NULL AS is_international_route,
+    NULL AS is_island_only,
+    NULL AS is_passenger_only
+FROM [WSFCornerStone].[dbo].[FerryRegion];
+
+-- SET IDENTITY_INSERT [Masters].[tblFerryRegion] OFF;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+BEGIN TRANSACTION;
+
+-- Enable identity insert
+SET IDENTITY_INSERT [Masters].[tblEventLookup] ON;
+
+-- 1. Insert Event_Type (Top Level)
+INSERT INTO [Masters].[tblEventLookup] (
+    id, [type], parent_id, [value], created_by, created_on, is_active, is_deleted
+)
+SELECT 
+    et.Event_Type_Id,
+    'Event_Type',
+    NULL,
+    et.Event_Type_Name,
+    SYSTEM_USER,
+    GETDATE(),
+    CASE WHEN et.Activ_Flag = 'Y' THEN 1 ELSE 0 END,
+    0
+FROM [WSFFoundation].[dbo].[Event_Type] et
+WHERE et.Event_Type_Id NOT IN (
+    SELECT id FROM [Masters].[tblEventLookup]
+);
+
+-- 2. Insert Event_System (Child of Event_Type)
+INSERT INTO [Masters].[tblEventLookup] (
+    id, [type], parent_id, [value], created_by, created_on, is_active, is_deleted
+)
+SELECT 
+    es.Event_System_Id,
+    'Event_System',
+    es.Event_Type_Id,
+    es.Event_System_Name,
+    SYSTEM_USER,
+    GETDATE(),
+    CASE WHEN es.Active_Flag = 'Y' THEN 1 ELSE 0 END,
+    0
+FROM [WSFFoundation].[dbo].[Event_System] es
+WHERE es.Event_System_Id NOT IN (
+    SELECT id FROM [Masters].[tblEventLookup]
+);
+
+-- 3. Insert Event_Category (Child of Event_System)
+INSERT INTO [Masters].[tblEventLookup] (
+    id, [type], parent_id, [value], created_by, created_on, is_active, is_deleted
+)
+SELECT 
+    ec.Event_Category_Id,
+    'Event_Category',
+    ec.Event_System_Id,
+    ec.Event_Category_Name,
+    SYSTEM_USER,
+    GETDATE(),
+    CASE WHEN ec.Active_Flag = 'Y' THEN 1 ELSE 0 END,
+    0
+FROM [WSFFoundation].[dbo].[Event_Category] ec
+WHERE ec.Event_Category_Id NOT IN (
+    SELECT id FROM [Masters].[tblEventLookup]
+);
+
+-- 4. Insert Event_Component (Child of Event_Category)
+INSERT INTO [Masters].[tblEventLookup] (
+    id, [type], parent_id, [value], created_by, created_on, is_active, is_deleted
+)
+SELECT 
+    ecomp.Event_Component_Id,
+    'Event_Component',
+    ecomp.Event_Category_Id,
+    ecomp.Event_Component_Name,
+    SYSTEM_USER,
+    GETDATE(),
+    CASE WHEN ecomp.Active_Flag = 'Y' THEN 1 ELSE 0 END,
+    0
+FROM [WSFFoundation].[dbo].[Event_Component] ecomp
+WHERE ecomp.Event_Component_Id NOT IN (
+    SELECT id FROM [Masters].[tblEventLookup]
+);
+
+-- 5. Insert Event_Sub_Component (Child of Event_Component)
+INSERT INTO [Masters].[tblEventLookup] (
+    id, [type], parent_id, [value], created_by, created_on, is_active, is_deleted
+)
+SELECT 
+    esc.Event_Sub_Compon_Id,
+    'Event_Sub_Component',
+    esc.Event_Component_Id,
+    esc.Event_Sub_Compon_Name,
+    SYSTEM_USER,
+    GETDATE(),
+    CASE WHEN esc.Active_Flag = 'Y' THEN 1 ELSE 0 END,
+    0
+FROM [WSFFoundation].[dbo].[Event_Sub_Component] esc
+WHERE esc.Event_Sub_Compon_Id NOT IN (
+    SELECT id FROM [Masters].[tblEventLookup]
+);
+
+-- Turn off identity insert
+SET IDENTITY_INSERT [Masters].[tblEventLookup] OFF;
+
+COMMIT;
+GO
+
+
+
+--UPDATE [WSDOT-DB-DEV].[Masters].[tblEventLookup]
+--SET parent_id = 0,
+--    modified_by = SYSTEM_USER,
+--    modified_on = GETDATE()
+--WHERE [type] = 'Event_Type';
+
+
+
+--select * from [Masters].[tblEventLookup]
+
+--truncate table [Masters].[tblEventLookup]
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
